@@ -53,6 +53,7 @@ export class UserService {
       throw new BadRequestException(error.message)
     }
   }
+  
   async getProfile(id:number){
     try {
       const profile = await this.prisma.user.findFirst({where:{id},select:{
@@ -90,7 +91,22 @@ export class UserService {
   update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
   }
-
+  async updateProfile(user_id:number,updateUserDto:UpdateUserDto){
+    try {
+      console.log(updateUserDto);
+      const finded = await this.prisma.user.findUnique({where:{id:user_id}});
+      if(!finded){
+        throw new BadRequestException('Такого пользователя не существует');
+      }
+      const updated = await this.prisma.user.update({where:{id:user_id},data:{...updateUserDto}});
+      if(!updated){
+        throw new BadRequestException('Не удалось обновить профиль');
+      }
+      return {updated:{id:updated.id,login:updated.login,name:updated.name,surname:updated.surname}};
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
   remove(id: number) {
     return `This action removes a #${id} user`;
   }

@@ -12,7 +12,7 @@ async function bootstrap() {
   .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);
-  app.enableCors({origin:'http://localhost:5173',credentials:true});
+  app.enableCors({origin:'http://localhost:3000',credentials:true});
   app.use('/uploads',express.static(join(__dirname,'..','uploads')));
   app.useGlobalPipes();
   app.use(cookieParser());

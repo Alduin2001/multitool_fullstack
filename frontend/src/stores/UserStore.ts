@@ -25,6 +25,12 @@ class UserStore extends RootStore {
         this.checkAuth(response.status);
         return response
     }
+    async logout(){
+        const response:AxiosResponse = await UserAPI.logout();
+        if(response.status>=200 && response.status<300){
+            this.isAuth = false;
+        }
+    }
 }
 
 export const userStore = new UserStore();

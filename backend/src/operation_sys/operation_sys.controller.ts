@@ -5,13 +5,15 @@ import { UpdateOperationSyDto } from './dto/update-operation_sy.dto';
 import { Role, Roles } from 'src/guards/roles.';
 import { JwtGuard } from 'src/guards/jwt.guard';
 import { RolesGuard } from 'src/guards/roles.guard';
-import { ApiCookieAuth } from '@nestjs/swagger';
+import { ApiBody, ApiCookieAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags("Операционные системы")
 @Controller('operation-sys')
 export class OperationSysController {
   constructor(private readonly operationSysService: OperationSysService) {}
 
   @Post()
+  @ApiBody({type:CreateOperationSyDto})
   @ApiCookieAuth()
   @Roles(Role.Admin)
   @UseGuards(JwtGuard,RolesGuard)

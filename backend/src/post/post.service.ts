@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PrismaService } from 'src/config/prisma.service';
@@ -32,12 +32,32 @@ export class PostService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} post`;
+  async findOne(id: number) {
+    try {
+      const post = await this.prisma.post.findFirst({where:{id},select:{
+        header:true,
+        body:true,
+        createdAt:true
+      }});
+      if(!post){
+        throw new BadRequestException('Пост не найден');
+      }
+      return {post};
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
-  update(id: number, updatePostDto: UpdatePostDto) {
-    return `This action updates a #${id} post`;
+  async update(id: number, updatePostDto: UpdatePostDto, user_id:number) {
+    try {
+      const post = await this.prisma.post.update({where:{id:id,authorPostId:user_id},data:{...updatePostDto}});
+      if(!post){
+        throw new BadRequestException('Не удалось обновить');
+      }
+      return HttpStatus.OK;
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
   remove(id: number) {

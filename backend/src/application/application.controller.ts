@@ -7,11 +7,13 @@ import { RolesGuard } from 'src/guards/roles.guard';
 import { Role, Roles } from 'src/guards/roles.';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 
+@ApiTags("Приложения")
 @Controller('application')
 export class ApplicationController {
   constructor(private readonly applicationService: ApplicationService) {}
-
+  
   @Roles(Role.Admin)
   @UseGuards(JwtGuard,RolesGuard)
   @UseInterceptors(FileInterceptor('file',{
@@ -23,6 +25,11 @@ export class ApplicationController {
       },
     })
   }))
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Create a new application',
+    type: CreateApplicationDto,
+  })
   @Post()
   create(@Body(new ValidationPipe()) createApplicationDto: CreateApplicationDto,@UploadedFile() file:Express.Multer.File,@Req() req:any) {
     const app_package = file.filename;

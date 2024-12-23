@@ -3,11 +3,17 @@ import Home from "../components/home";
 import Register from "../components/register";
 import Profile from "../components/profile";
 import Auth from "../components/auth";
+import Documentation from "../components/documentation";
 export const publicRoutes:RouterI[] = [
     {
         name:'Главная',
         path:'/',
         component:Home
+    },
+    {
+        name:"Документация",
+        path:"/documentation",
+        component:Documentation
     }
 ];
 

@@ -1,0 +1,10 @@
+.doc_link{
+    /* color:rgb(26, 29, 22); */
+    text-decoration: none;
+    transition: .7s ease;
+    cursor: pointer;
+}
+.doc_link:hover{
+    color:rgb(38, 43, 22);
+    text-decoration: underline;
+}

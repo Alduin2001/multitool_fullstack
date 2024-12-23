@@ -1,12 +1,18 @@
 import { FC } from "react";
-import { Dropdown, Nav, Navbar } from "react-bootstrap";
+import { Button, Dropdown, Nav, Navbar } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import { authRoutes, privateRoutes, publicRoutes } from "../config/routes";
 
 import { userStore } from "../stores/UserStore";
 import { observer } from "mobx-react";
-
+import { useNavigate } from "react-router-dom";
 const Header: FC = observer(() => {
+    const navigate = useNavigate();
+
+    const logoutUser = async ()=>{
+        await userStore.logout()
+        .then(()=>navigate('/auth'));
+    }
     return (
         <Navbar expand='lg' bg="success" variant="dark" className="p-2">
             <Navbar.Brand as={Link} to="/">Logo</Navbar.Brand>
@@ -38,6 +44,9 @@ const Header: FC = observer(() => {
                                         {el.name}
                                     </Dropdown.Item>
                                 ))}
+                                <Dropdown.Item>
+                                    <Button variant="danger" onClick={logoutUser}>Выйти</Button>
+                                </Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>) : (<Dropdown>
                             <Dropdown.Toggle variant="success" id="dropdown-auth">

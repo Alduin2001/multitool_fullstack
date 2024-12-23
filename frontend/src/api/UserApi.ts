@@ -21,12 +21,31 @@ export default class UserAPI {
             return error;
         }
     }
+    static async logout():Promise<any>{
+        try {
+            const response = await apiClient.post('user/logout',{},{withCredentials:true});
+            return response;
+        } catch (error) {
+            return error;
+        }
+    }
     static async profile(): Promise<any> {
         try {
             const response = await apiClient.get('user/profile',{
                 withCredentials: true
             });
             return response;
+        } catch (error) {
+            return error;
+        }
+    }
+    static async changeProfile():Promise<any>{
+        try {
+         const response = await apiClient.patch('user/changeProfile',{name:"name"},{
+            withCredentials:true
+         });
+         return response;
+
         } catch (error) {
             return error;
         }

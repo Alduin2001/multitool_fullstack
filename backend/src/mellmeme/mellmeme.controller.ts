@@ -7,7 +7,9 @@ import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { JwtGuard } from 'src/guards/jwt.guard';
 import UserRequest from 'src/interfaces/user_id';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags("Мемы с мелстроем")
 @Controller('mellmeme')
 export class MellmemeController {
   constructor(private readonly mellmemeService: MellmemeService) {}
